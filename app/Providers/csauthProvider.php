@@ -50,5 +50,7 @@ class csauthProvider extends ServiceProvider
             $pageConfigs = ['myLayout' => 'blank'];
             return view('content.authentications.auth-forgot-password-basic', ['pageConfigs' => $pageConfigs]);
         });
+
+        
     }
 }
