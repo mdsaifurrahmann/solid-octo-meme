@@ -1,0 +1,40 @@
+1. File Upload
+2. Applicant's list
+3. Single Applicant
+4. Applicant update
+5. Export to excel
+6. Export to pdf
+7. Pagination
+
+student name
+father name
+mother name
+brother name
+sister name
+guardian name (in abs)
+relation with guardian
+student phone number
+parents phone number
+guardian phone number
+
+present & permanent
+division
+district
+zilla/upzilla
+city
+post code
+village
+
+education
+ssc year
+ssc gpa
+diploma year
+gpa
+ssc session
+diploma session
+semester
+department
+
+interests in
+gender
+country
