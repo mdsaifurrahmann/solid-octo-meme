@@ -24,7 +24,8 @@ class form extends Model
         "phone",
         "email",
         "gender",
-        "hobby"
+        "hobby",
+        "file"
     ];
 
     protected $table = 'form';

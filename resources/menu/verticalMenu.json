@@ -1,16 +1,16 @@
 {
   "menu": [
     {
-      "url": "/",
-      "name": "Home",
+      "url": "/form",
+      "name": "Form",
       "icon": "menu-icon tf-icons ti ti-smart-home",
-      "slug": "pages-home"
+      "slug": "form-display"
     },
     {
-      "url": "/page-2",
+      "url": "/list",
       "icon": "menu-icon tf-icons ti ti-file",
-      "name": "Page 2",
-      "slug": "pages-page-2"
+      "name": "All Records",
+      "slug": "list"
     },
     {
       "url": "/pages/misc-error",

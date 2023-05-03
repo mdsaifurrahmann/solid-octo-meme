@@ -10,8 +10,9 @@
     <div class="container">
         <div class="card my-4">
             <h5 class="card-header text-center text-decoration-underline">Student Database</h5>
-            <form class="card-body" action="{{ route('form-store') }}" method="POST" enctype="multipart/form-data">
+            <form class="card-body" action="{{ route('update', $single->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('patch')
 
                 @if (session()->has('success'))
                     {{ session()->get('success') }}
@@ -24,11 +25,12 @@
                 @endif
 
                 <h6>Student Info</h6>
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-full-name">Full Name</label>
                         <input type="text" id="multicol-full-name" class="form-control" placeholder="Abdullah"
-                            name="full_name" />
+                            name="full_name" value="{{ $single->full_name }}" />
                         @error('full_name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -36,51 +38,79 @@
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-roll">Roll</label>
-                        <input type="number" id="multicol-roll" class="form-control" placeholder="124282" name="roll" />
+                        <input type="number" id="multicol-roll" class="form-control" placeholder="124282" name="roll"
+                            value="{{ $single->roll }}" />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-student-id">Student ID</label>
                         <input type="number" id="multicol-student-id" class="form-control" placeholder="124282"
-                            name="student_id" />
+                            name="student_id" value="{{ $single->student_id }}" />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-birthdate">Birth Date</label>
                         <input type="text" id="multicol-birthdate" class="form-control dob-picker"
-                            placeholder="YYYY-MM-DD" name="dob" />
+                            placeholder="YYYY-MM-DD" name="dob" value="{{ $single->dob }}" />
                     </div>
 
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-father's-name">Father's Name</label>
                         <input type="text" id="multicol-father's-name" class="form-control"
-                            placeholder="Abdullah ibn Musa" name="fathers_name" />
+                            placeholder="Abdullah ibn Musa" name="fathers_name" value="{{ $single->fathers_name }}" />
                     </div>
+
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-mother's-name">Mother's Name</label>
                         <input type="text" id="multicol-mother's-name" class="form-control" placeholder="Amena Khatun"
-                            name="mothers_name" />
+                            name="mothers_name" value="{{ $single->mothers_name }}" />
                     </div>
-
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-depertment">Depertment</label>
 
                         <select id="multicol-depertment" class="form-select" name="department">
 
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
-                            <option value="computer-technology">Computer Technology</option>
+                            @if ($single->department)
+                                <option value="{{ $single->department }}" checked>
+                                    {{ strtoupper($single->department) }}</option>
+                            @endif
+
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="textile engineering"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
+                            <option value="computer-technology"
+                                {{ $single->department == 'computer-technology' ? 'selected' : '' }}>Computer Technology
+                            </option>
 
                         </select>
                     </div>
@@ -89,6 +119,13 @@
                         <label class="form-label" for="multicol-semester">Semester</label>
 
                         <select id="multicol-semester" class="form-select" name="semester">
+
+                            @if ($single->semester)
+                                <option value="{{ $single->semester }}" selected>
+                                    {{ strtoupper($single->semester) }}</option>
+                            @endif
+
+
 
                             <option value="1st">1st Semester</option>
                             <option value="2nd">2nd Semester</option>
@@ -108,6 +145,11 @@
 
                         <select id="multicol-semester" class="form-select" name="blood">
 
+                            @if ($single->blood)
+                                <option value="{{ $single->blood }}" checked>
+                                    {{ strtoupper($single->blood) }}</option>
+                            @endif
+
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="AB+">AB+</option>
@@ -126,7 +168,13 @@
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-country">Country</label>
                         <select id="multicol-country" class="select2 form-select" data-allow-clear="true"
-                            name="country"\>
+                            name="country">
+
+                            @if ($single->country)
+                                <option value="{{ $single->country }}" checked>
+                                    {{ strtoupper($single->country) }}</option>
+                            @endif
+
                             <option value="">Select</option>
                             <option value="Australia">Australia</option>
                             <option value="Bangladesh">Bangladesh</option>
@@ -158,35 +206,36 @@
                     <div class="col-md-6 select2-primary">
                         <label class="form-label" for="multicol-language">Language</label>
                         <select id="multicol-language" class="select2 form-select" name="language[]" multiple>
-                            <option value="en" selected>English</option>
-                            <option value="fr" selected>French</option>
-                            <option value="de">German</option>
-                            <option value="pt">Portuguese</option>
+                            <option value="en" {{ in_array('en', $languages) ? 'selected' : '' }}>English</option>
+                            <option value="fr" {{ in_array('fr', $languages) ? 'selected' : '' }}>French</option>
+                            <option value="de" {{ in_array('de', $languages) ? 'selected' : '' }}>German</option>
+                            <option value="pt" {{ in_array('pt', $languages) ? 'selected' : '' }}>Portuguese</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-phone">Phone No</label>
                         <input type="text" id="multicol-phone" class="form-control phone-mask"
-                            placeholder="+880 17* **** **98" aria-label="658 799 8941" name="phone" />
+                            placeholder="+880 17* **** **98" aria-label="658 799 8941" name="phone"
+                            value="{{ $single->phone }}" />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-email">Email Address</label>
                         <input type="email" id="multicol-email" class="form-control phone-mask"
-                            placeholder="example@gmail.com" name="email" />
+                            placeholder="example@gmail.com" name="email" value="{{ $single->email }}" />
                     </div>
 
                     <div class="col-md-6">
                         <div class="col mt-2">
                             <div class="form-check form-check-inline">
                                 <input name="gender" class="form-check-input" type="radio" value="male"
-                                    id="male" checked="" />
+                                    id="male" {{ $single->gender == 'male' ? 'checked' : '' }} />
                                 <label class="form-check-label" for="male">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input name="gender" class="form-check-input" type="radio" value="female"
-                                    id="female" />
+                                    id="female" {{ $single->gender == 'female' ? 'checked' : '' }} />
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
@@ -198,7 +247,7 @@
                         <br>
                         <div class="form-check mt-3 form-check-inline">
                             <input class="form-check-input" type="checkbox" value="Gardening" id="defaultCheck1"
-                                name="hobby[]">
+                                name="hobby[]" {{ in_array('Gardening', $hobbies) ? 'checked' : '' }}>
                             <label class="form-check-label" for="defaultCheck1">
                                 Gardening
                             </label>
@@ -206,7 +255,7 @@
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" value="Singing" id="defaultCheck2"
-                                name="hobby[]">
+                                name="hobby[]" {{ in_array('Singing', $hobbies) ? 'checked' : '' }}>
                             <label class="form-check-label" for="defaultCheck2">
                                 Singing
                             </label>
@@ -214,7 +263,7 @@
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" value="Dancing" id="defaultCheck3"
-                                name="hobby[]">
+                                name="hobby[]" {{ in_array('Dancing', $hobbies) ? 'checked' : '' }}>
                             <label class="form-check-label" for="defaultCheck3">
                                 Dancing
                             </label>
@@ -222,7 +271,7 @@
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" value="Travelling" id="disabledCheck1"
-                                name="hobby[]">
+                                name="hobby[]" {{ in_array('Travelling', $hobbies) ? 'checked' : '' }}>
                             <label class="form-check-label" for="disabledCheck1">
                                 Travelling
                             </label>

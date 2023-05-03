@@ -10,58 +10,45 @@
     <div class="container">
         <div class="card my-4">
             <h5 class="card-header text-center text-decoration-underline">Student Database</h5>
-            <form class="card-body" action="{{ route('form-store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-
-                @if (session()->has('success'))
-                    {{ session()->get('success') }}
-                @endif
-
-                @if ($errors->any())
-                    @foreach ($errors->all() as $message)
-                        <span class="input-error">{{ $message }}</span>
-                    @endforeach
-                @endif
+            <div class="card-body">
 
                 <h6>Student Info</h6>
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-full-name">Full Name</label>
-                        <input type="text" id="multicol-full-name" class="form-control" placeholder="Abdullah"
-                            name="full_name" />
-                        @error('full_name')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <input type="text" id="multicol-full-name" class="form-control disabled"
+                            value="{{ $single->full_name }}" readonly />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-roll">Roll</label>
-                        <input type="number" id="multicol-roll" class="form-control" placeholder="124282" name="roll" />
+                        <input type="number" id="multicol-roll" class="form-control" value="{{ $single->roll }}"
+                            readonly />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-student-id">Student ID</label>
-                        <input type="number" id="multicol-student-id" class="form-control" placeholder="124282"
-                            name="student_id" />
+                        <input type="number" id="multicol-student-id" class="form-control"
+                            value="{{ $single->student_id }}" readonly />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-birthdate">Birth Date</label>
                         <input type="text" id="multicol-birthdate" class="form-control dob-picker"
-                            placeholder="YYYY-MM-DD" name="dob" />
+                            value="{{ $single->dob }}" readonly />
                     </div>
 
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-father's-name">Father's Name</label>
                         <input type="text" id="multicol-father's-name" class="form-control"
-                            placeholder="Abdullah ibn Musa" name="fathers_name" />
+                            value="{{ $single->fathers_name }}" readonly />
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label" for="multicol-mother's-name">Mother's Name</label>
-                        <input type="text" id="multicol-mother's-name" class="form-control" placeholder="Amena Khatun"
-                            name="mothers_name" />
+                        <input type="text" id="multicol-mother's-name" class="form-control"
+                            value="{{ $single->mothers_name }}" readonly />
                     </div>
 
 
@@ -69,6 +56,12 @@
                         <label class="form-label" for="multicol-depertment">Depertment</label>
 
                         <select id="multicol-depertment" class="form-select" name="department">
+
+                            <option selected="" value="{{ $single->department ? $single->department : '' }}"
+                                {{ $single->department ? '' : 'disabled' }}>
+                                {{ $single->department ? $single->department : 'Select your Department' }}
+                            </option>
+
 
                             <option value="computer-technology">Computer Technology</option>
                             <option value="computer-technology">Computer Technology</option>
@@ -89,6 +82,12 @@
                         <label class="form-label" for="multicol-semester">Semester</label>
 
                         <select id="multicol-semester" class="form-select" name="semester">
+
+                            <option selected="" value="{{ $single->semester ? $single->semester : '' }}"
+                                {{ $single->semester ? '' : 'disabled' }}>
+                                {{ $single->semester ? $single->semester : 'Select your semester' }}
+                            </option>
+
 
                             <option value="1st">1st Semester</option>
                             <option value="2nd">2nd Semester</option>
@@ -232,13 +231,7 @@
                     </div>
 
                     <div class="col-md-6 p-4">
-                        <label class="form-check-label" for="disabledCheck1">
-                            Upload File
-                        </label>
-                        <div class="form-check mt-3">
-                            <input class="form-control" type="file" id="" name="file">
-
-                        </div>
+                        <img src="{{ '/student-images/' . $single->file }}" alt="image">
                     </div>
                 </div>
 
@@ -248,10 +241,10 @@
                     <button type="reset" class="btn btn-label-secondary">Cancel</button>
                 </div>
 
-            </form>
-        </div>
+                </form>
+            </div>
 
 
 
 
-    @endsection
+        @endsection

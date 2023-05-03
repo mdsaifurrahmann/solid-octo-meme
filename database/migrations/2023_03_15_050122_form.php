@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('gender');
             $table->json('hobby');
+            $table->text('file');
             $table->timestamps();
         });
     }

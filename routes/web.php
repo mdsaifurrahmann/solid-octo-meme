@@ -27,11 +27,20 @@ Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->na
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 
-Route::group(['middleware' => ['role:admin']], function () {
+// Route::group(['middleware' => ['role:admin']], function () {
 
-    Route::post('form-store', [FormController::class, 'store'])->middleware('auth')->name('form-store');
-});
-Route::get('form', [FormController::class, 'create'])->middleware('verified')->name('form-display');
+Route::post('form-store', [FormController::class, 'store'])->name('form-store');
+// });
+Route::get('form', [FormController::class, 'create'])->name('form-display');
+
+Route::get('list', [FormController::class, 'index'])->name('list');
+
+Route::get('single/{id}', [FormController::class, 'show'])->name('single');
+Route::get('confirm', [FormController::class, 'show'])->name('single');
+
+Route::get('update-form/{id}', [FormController::class, 'edit'])->name('update-form');
+
+Route::patch('update-form/{id}', [FormController::class, 'update'])->name('update');
 
 // Route::get('form', [FormController::class, 'create'])->name('form-display');
 // Route::post('form-store', [FormController::class, 'store'])->middleware('auth')->name('form-store');

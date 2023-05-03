@@ -39,6 +39,7 @@ class StoreformRequest extends FormRequest
             'email' => 'email|required',
             'gender' => 'string|required',
             'hobby' => 'array|required',
+            'file' => 'image|file|required|max:1024'
         ];
     }
 
@@ -74,7 +75,11 @@ class StoreformRequest extends FormRequest
             'gender.string' => 'gender must be string',
             'gender.required' => 'gender is required',
             'hobby.required' => 'hobby is required',
-            'hobby.array' => 'hobby must be array'
+            'hobby.array' => 'hobby must be array',
+            'file.file' => 'file must be type of file',
+            'file.image' => 'file must be image',
+            'file.required' => 'you must choose a file',
+            'file.size' => 'max file size is 1024KB'
         ];
     }
 }

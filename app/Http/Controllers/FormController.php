@@ -11,6 +11,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 
 
@@ -24,7 +26,12 @@ class FormController extends Controller
      */
     public function index()
     {
-        //
+        // $list = Form::all();
+
+        $list = DB::table('form')->get();
+
+        // $pageConfigs = ['myLayout' => 'blank'];
+        return view('content.frontend.list',  compact('list'));
     }
 
     /**
@@ -76,6 +83,12 @@ class FormController extends Controller
         }
 
 
+        // Hanfle the file name for Database
+        $file_name = time() . Str::upper(Str::random(16)) . '.' . $request->file->extension();
+        // move the file
+        $request->file->move(public_path('student-images'), $file_name);
+
+
         $data = [
             'full_name' => $request->full_name,
             'roll' => $request->roll,
@@ -89,7 +102,8 @@ class FormController extends Controller
             'country' => $request->country,
             'phone' => $request->phone,
             'email' => $request->email,
-            'gender' => $request->gender
+            'gender' => $request->gender,
+            'file' => $file_name
         ];
 
 
@@ -104,9 +118,11 @@ class FormController extends Controller
      * @param  \App\Models\form  $form
      * @return \Illuminate\Http\Response
      */
-    public function show(form $form)
+    public function show(form $form, $id)
     {
-        //
+        $single = form::findOrFail($id);
+
+        return view('content.frontend.single', compact('single'));
     }
 
     /**
@@ -115,9 +131,16 @@ class FormController extends Controller
      * @param  \App\Models\form  $form
      * @return \Illuminate\Http\Response
      */
-    public function edit(form $form)
+    public function edit(form $form, $id)
     {
-        //
+        $single = form::findOrFail($id);
+
+        $languages = json_decode($single->language);
+
+        $hobbies = json_decode($single->hobby);
+
+        // dd($languages);
+        return view('content.frontend.update', compact('single', 'languages', 'hobbies'));
     }
 
     /**
@@ -127,9 +150,77 @@ class FormController extends Controller
      * @param  \App\Models\form  $form
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateformRequest $request, form $form)
+    public function update(UpdateformRequest $request, form $form, $id)
     {
-        //
+        $request->validated();
+
+        $language_data = [];
+        $hobby_data = [];
+
+        if (!empty($request->language)) {
+
+            foreach ($request->language as $language) {
+                $language_data[] = $language;
+            };
+
+            $lang_final = json_encode($language_data);
+        }
+        if (!empty($request->hobby)) {
+
+            foreach ($request->hobby as $hbby) {
+                $hobby_data[] = $hbby;
+            };
+
+            $hobby_final = json_encode($hobby_data);
+        }
+
+
+        // delete old image on update
+
+        $getData = form::where('id', $id)->first();
+
+        $imageName = $getData->file;
+
+
+        if ($request->hasFile('file')) {
+            if (File::exists(public_path('student-images/') . $imageName)) {
+                File::delete(public_path('student-images/') . $imageName);
+            }
+
+            // Hanfle the file name for Database
+            $file_name = time() . Str::upper(Str::random(16)) . '.' . $request->file->extension();
+            // move the file
+            $request->file->move(public_path('student-images'), $file_name);
+        } else {
+            $file_name = $getData->file;
+        }
+
+
+
+
+
+
+        $data = [
+            'full_name' => $request->full_name,
+            'roll' => $request->roll,
+            'student_id' => $request->student_id,
+            'dob' => $request->dob,
+            'fathers_name' => $request->fathers_name,
+            'mothers_name' => $request->mothers_name,
+            'department' => $request->department,
+            'semester' => $request->semester,
+            'blood' => $request->blood,
+            'country' => $request->country,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'file' => $file_name
+        ];
+
+
+        form::findOrFail($id)->update($data + ['hobby' => $hobby_final] + ['language' => $lang_final]);
+
+        return redirect()->back()->with('success', 'Form data saved successfully!');
     }
 
     /**
