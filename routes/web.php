@@ -35,12 +35,14 @@ Route::get('form', [FormController::class, 'create'])->name('form-display');
 
 Route::get('list', [FormController::class, 'index'])->name('list');
 
-Route::get('single/{id}', [FormController::class, 'show'])->name('single');
+Route::get('single/{id}', [FormController::class, 'show'])->name('single-details');
 Route::get('confirm', [FormController::class, 'show'])->name('single');
 
 Route::get('update-form/{id}', [FormController::class, 'edit'])->name('update-form');
 
 Route::patch('update-form/{id}', [FormController::class, 'update'])->name('update');
+
+Route::delete('destroy/{id}', [FormController::class, 'destroy'])->name('destroy');
 
 // Route::get('form', [FormController::class, 'create'])->name('form-display');
 // Route::post('form-store', [FormController::class, 'store'])->middleware('auth')->name('form-store');

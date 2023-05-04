@@ -133,6 +133,12 @@ class FormController extends Controller
      */
     public function edit(form $form, $id)
     {
+
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You\'re not authenticated!');
+        }
+
+
         $single = form::findOrFail($id);
 
         $languages = json_decode($single->language);
@@ -152,6 +158,11 @@ class FormController extends Controller
      */
     public function update(UpdateformRequest $request, form $form, $id)
     {
+
+        if (Auth::check()) {
+            return redirect()->route('login')->with('error', 'You\'re not authenticated!');
+        }
+
         $request->validated();
 
         $language_data = [];
@@ -229,8 +240,28 @@ class FormController extends Controller
      * @param  \App\Models\form  $form
      * @return \Illuminate\Http\Response
      */
-    public function destroy(form $form)
+    public function destroy(form $form, $id)
     {
-        //
+        // delete the applicant
+        if (Auth::check()) {
+            if (form::where('id', $id)->exists()) {
+                // remove file from storage
+                $applicant = form::where('id', $id)->first();
+                $image_path = $applicant->file;
+
+                if (File::exists(public_path('student-images/') . $image_path)) {
+                    File::delete(public_path('student-images/') . $image_path);
+                } else {
+                    return redirect()->back()->with('destroy-error', 'Images are not found associated with this Applicant!');
+                }
+
+                form::where('id', $id)->delete();
+                return redirect()->route('list')->with('destroy-success', 'Applicant deleted successfully!');
+            } else {
+                return redirect()->route('list')->with('destroy-error', 'Applicant does not exist! So can not delete!');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'You are not authorized to delete this applicant!');
+        }
     }
 }

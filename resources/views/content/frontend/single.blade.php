@@ -12,6 +12,14 @@
             <h5 class="card-header text-center text-decoration-underline">Student Database</h5>
             <div class="card-body">
 
+                <form action="{{ route('destroy', $single->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <input type="submit" value="Delete">
+
+                </form>
+
                 <h6>Student Info</h6>
                 <div class="row g-3">
                     <div class="col-md-6">

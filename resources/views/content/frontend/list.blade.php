@@ -53,15 +53,15 @@
                             <td>
                                 <div class="avatar-wrapper">
                                     <div class="avatar me-2">
-                                        <img src="{{ '/student-images/' . $single->image_file }}"
-                                            alt="{{ $single->full_name }}" class="rounded-circle">
+                                        <img src="{{ '/student-images/' . $single->file }}" alt="{{ $single->full_name }}"
+                                            class="rounded-circle">
                                     </div>
                                 </div>
 
                             </td>
                             <td>
 
-                                <a href="{{ route('single', $single->id) }}">{{ $single->full_name }}</a>
+                                <a href="{{ route('single-details', $single->id) }}">{{ $single->full_name }}</a>
 
                             </td>
                             <td>{{ $single->roll }}</td>
