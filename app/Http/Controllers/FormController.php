@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Mpdf\MpdfException;
 
 
 
@@ -28,7 +29,7 @@ class FormController extends Controller
     {
         // $list = Form::all();
 
-        $list = DB::table('form')->get();
+        $list = DB::table('form')->paginate(15);
 
         // $pageConfigs = ['myLayout' => 'blank'];
         return view('content.frontend.list',  compact('list'));
@@ -263,5 +264,44 @@ class FormController extends Controller
         } else {
             return redirect()->route('login')->with('error', 'You are not authorized to delete this applicant!');
         }
+    }
+
+
+    public function showpdf(form $form, $id)
+    {
+        $applicant = form::findOrFail($id);
+
+        $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+        // $fontDirs = $defaultConfig['fontDir'];
+
+        // $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+        // $fontData = $defaultFontConfig['fontdata'];
+
+
+        $pdf = new \Mpdf\Mpdf([
+            // 'fontDir' => array_merge($fontDirs, [
+            //     __DIR__ . '/fonts',
+            // ]),
+            // 'fontdata' => $fontData + [ // lowercase letters only in font key
+            //     'solaimanlipi' => [
+            //         'R' => 'SolaimanLipi.ttf',
+            //         'useOTL' => 0xFF,
+            //     ]
+            // ],
+
+
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'default_font' => 'freeserif'
+
+        ]);
+
+        // $previousUrl = \URL::previous();
+
+
+        $content = view('content.frontend.pdf', compact('applicant'))->render();
+        $pdf->WriteHTML($content);
+        $pdf->Output($applicant->full_name . '-' . Str::upper(Str::random(16)) . '.pdf', 'I');
     }
 }

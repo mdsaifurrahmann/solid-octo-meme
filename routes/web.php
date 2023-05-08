@@ -44,5 +44,7 @@ Route::patch('update-form/{id}', [FormController::class, 'update'])->name('updat
 
 Route::delete('destroy/{id}', [FormController::class, 'destroy'])->name('destroy');
 
+Route::get('pdf/{id}', [FormController::class, 'showpdf'])->name('pdf');
+
 // Route::get('form', [FormController::class, 'create'])->name('form-display');
 // Route::post('form-store', [FormController::class, 'store'])->middleware('auth')->name('form-store');
